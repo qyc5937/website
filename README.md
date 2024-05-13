@@ -14,3 +14,6 @@ http://127.0.0.1:8080/
 
 1. Add Functionality (a button to add new student)
 2. Save/Load student so edits are saved forever
+
+BONUS:
+Create your own website!
