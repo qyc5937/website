@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greetings to Students</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 60%;
+            margin: 20px auto;
+            background-color: #cebc20;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .student-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #000000;
+            background-color: #2accf9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .student-item {
+            margin-bottom: 5px;
+            border-bottom: 1px solid #000000;
+        }
+        .add-student {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .add-student input[type="text"] {
+            flex: 1;
+            margin-right: 10px;
+            padding: 5px;
+        }
+        .add-student button {
+            padding: 5px 10px;
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .add-student button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, Students!</h1>
+        <div class="add-student">
+            <input type="text" id="newStudentInput" placeholder="Enter student name">
+            <button onclick="addNewStudent()">Add Student</button>
+        </div>
+        <div class="student-list" id="studentList">
+            <!-- Student items will be dynamically added here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to add a student to the list
+        function addStudent(name) {
+            var studentList = document.getElementById("studentList");
+            var studentItem = document.createElement("div");
+            studentItem.className = "student-item";
+            studentItem.textContent = name;
+            studentList.appendChild(studentItem);
+        }
+
+        // Function to add new student from input and store in session cookie
+        function addNewStudent() {
+            var newStudentInput = document.getElementById("newStudentInput");
+            var newName = newStudentInput.value.trim();
+            if (newName !== "") {
+                addStudent(newName);
+                // Store in session cookie
+                var students = JSON.parse(getCookie("students") || "[]");
+                students.push(newName);
+                document.cookie = "students=" + JSON.stringify(students);
+                // Clear input
+                newStudentInput.value = "";
+            }
+        }
+
+        // Function to retrieve stored students from session cookie on load
+        function retrieveStudents() {
+            var students = JSON.parse(getCookie("students") || "[]");
+            students.forEach(function(student) {
+                addStudent(student);
+            });
+        }
+
+        // Helper function to get cookie value by name
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+
+        // Call retrieveStudents function on load
+        window.onload = function() {
+            retrieveStudents();
+        };
+    </script>
+</body>
+</html>
+`
